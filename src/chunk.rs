@@ -55,7 +55,7 @@ impl TryFrom<&[u8]> for Chunk {
 
 impl Display for Chunk {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "Chunk Type: {}; Data: {}", self.chunk_type().bytes(), self.data_as_string())
+        write!(f, "Chunk Type: {}; Data: {}", self.chunk_type(), self.data_as_string().unwrap())
     }
 }
 
