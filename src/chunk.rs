@@ -86,6 +86,16 @@ impl Chunk {
     pub fn data_as_string(&self) -> Result<String> {
         Ok(String::from_utf8(self.data.clone())?)
     }
+
+    pub fn as_bytes(&self) -> Vec<u8> {
+        //iter and chain struct items in order, then copy and collect as Vec
+        self.length.to_be_bytes().iter()
+            .chain(self.chunk_type.bytes().as_slice())
+            .chain(self.data.as_slice())
+            .chain(self.crc.to_be_bytes().as_slice())
+            .copied()
+            .collect()
+    }
 }
 
 #[derive(Debug, Clone)]
