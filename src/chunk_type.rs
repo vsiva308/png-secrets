@@ -1,6 +1,6 @@
 use std::{fmt, str::FromStr, convert::TryFrom, str};
 
-use crate::{Error, Result};
+use crate::{Error, Result, chunk::Chunk};
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct ChunkType {
@@ -40,7 +40,7 @@ impl FromStr for ChunkType {
             Err(_) => return Err(ChunkTypeError::AsciiError.into())
         };
 
-        Ok( ChunkType { bytes })
+        Ok( Self { bytes })
     }
 }
 
@@ -86,6 +86,17 @@ impl ChunkType {
     }
 
 
+}
+
+#[derive(Clone)]
+pub struct ChunkTypeWrapper(ChunkType);
+
+impl FromStr for ChunkTypeWrapper {
+    type Err = String;
+
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        Ok(Self(ChunkType::from_str(s).map_err(|e| e.to_string())?))
+    }
 }
 
 #[derive(Debug, Clone)]
