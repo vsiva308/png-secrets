@@ -1,6 +1,6 @@
 use std::{fmt, str::FromStr, convert::TryFrom, str};
 
-use crate::{Error, Result, chunk::Chunk};
+use crate::{Error, Result};
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct ChunkType {
@@ -89,7 +89,7 @@ impl ChunkType {
 }
 
 #[derive(Clone)]
-pub struct ChunkTypeWrapper(ChunkType);
+pub struct ChunkTypeWrapper(pub ChunkType);
 
 impl FromStr for ChunkTypeWrapper {
     type Err = String;

@@ -7,17 +7,16 @@ use crate::chunk_type::ChunkTypeWrapper;
 #[derive(Parser)]
 #[command(author, version, about, long_about = None)]
 #[command(propagate_version = true)]
-struct Cli {
+pub struct Cli {
+    #[command(subcommand)]
+    pub command: Commands,
     /// Path of the PNG file
     #[arg(short, long, value_name = "FILE")]
-    file_path: PathBuf,
-
-    #[command(subcommand)]
-    command: Commands
+    pub file_path: PathBuf,
 }
 
 #[derive(Subcommand)]
-enum Commands {
+pub enum Commands {
     /// Encodes a message in a PNG file
     Encode(EncodeArgs),
     /// Show the message in a PNG file
@@ -29,23 +28,23 @@ enum Commands {
 }
 
 #[derive(Args)]
-struct EncodeArgs {
-    #[arg(long, value_parser = clap::value_parser!(ChunkTypeWrapper))]
-    chunk_type: ChunkTypeWrapper,
-    data: String,
-    output_file: Option<PathBuf>,
+pub struct EncodeArgs {
+    #[arg(value_parser = clap::value_parser!(ChunkTypeWrapper))]
+    pub chunk_type: ChunkTypeWrapper,
+    pub data: String,
+    pub output_file: Option<PathBuf>,
 }
 
 #[derive(Args)]
-struct DecodeArgs {
-    #[arg(long, value_parser = clap::value_parser!(ChunkTypeWrapper))]
-    chunk_type: ChunkTypeWrapper,
+pub struct DecodeArgs {
+    #[arg(value_parser = clap::value_parser!(ChunkTypeWrapper))]
+    pub chunk_type: ChunkTypeWrapper,
 }
 
 #[derive(Args)]
-struct RemoveArgs {
-    #[arg(long, value_parser = clap::value_parser!(ChunkTypeWrapper))]
-    chunk_type: ChunkTypeWrapper,
+pub struct RemoveArgs {
+    #[arg(value_parser = clap::value_parser!(ChunkTypeWrapper))]
+    pub chunk_type: ChunkTypeWrapper,
 }
 
 #[cfg(test)]

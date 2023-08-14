@@ -69,19 +69,19 @@ impl Png {
         Ok(self.chunks.remove(index.unwrap()))
     }
 
-    fn header(&self) -> &[u8; 8] {
+    pub fn header(&self) -> &[u8; 8] {
         &Self::STANDARD_HEADER
     }
 
-    fn chunks(&self) -> &[Chunk] {
+    pub fn chunks(&self) -> &[Chunk] {
         &self.chunks
     }
 
-    fn chunk_by_type(&self, chunk_type: &str) -> Option<&Chunk> {
+    pub fn chunk_by_type(&self, chunk_type: &str) -> Option<&Chunk> {
         self.chunks.iter().find(|&x| x.chunk_type().bytes() == chunk_type.as_bytes())
     }
 
-    fn as_bytes(&self) -> Vec<u8> {
+    pub fn as_bytes(&self) -> Vec<u8> {
         //chain header and chunks as bytes
         Self::STANDARD_HEADER.into_iter()
             .chain(self.chunks.iter()
